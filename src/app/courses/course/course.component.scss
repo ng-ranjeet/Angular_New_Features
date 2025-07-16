@@ -1,0 +1,133 @@
+
+
+.main-container {
+  padding: 40px 24px; // More vertical padding
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Header Section Styles */
+.header-section {
+  text-align: center;
+  margin-bottom: 64px;
+
+  .app-logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 12px; // Space between logo and tagline
+
+    .header-icon {
+      font-size: 64px; // Larger icon
+      width: 64px;
+      height: 64px;
+      margin-right: 16px;
+      // You can explicitly set icon color if not using 'color="primary"' in HTML
+      // color: mat.get-color-from-palette($my-app-primary, 500);
+    }
+
+    .app-title {
+      margin: 0;
+      font-weight: 700; // Bold title
+      color: blue // Even darker indigo for title
+    }
+  }
+
+  .tagline {
+    color: rgba(0, 0, 0, 0.65); // Slightly softer text color
+    max-width: 500px;
+    margin: 0 auto; // Center the tagline
+  }
+}
+
+/* app.component.scss */
+.search-section {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 64px; // More space below search bar
+
+  .search-input {
+    width: 100%;
+    max-width: 700px; // Wider search bar
+    .mat-mdc-form-field-flex {
+        border-radius: 8px; // Slightly rounded corners
+    }
+  }
+}
+/* app.component.scss */
+.course-cards-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 32px;
+  justify-content: center;
+}
+
+.course-card {
+  width: 100%;
+  max-width: 360px; 
+  box-sizing: border-box;
+  border-radius: 12px; 
+  overflow: hidden; 
+  transition: transform 0.3s ease, box-shadow 0.3s ease; 
+
+  &:hover {
+    transform: translateY(-8px); 
+    // box-shadow: mat.get-elevation(8); 
+  }
+
+  .image-wrapper {
+    height: 200px;
+    background-color: #e0f2f7;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-bottom: 1px solid #eee; // Subtle separator
+    position: relative;
+    overflow: hidden; // Important for clip-path or complex image effects
+
+    &.advanced-angular-bg {
+        // You might use a linear gradient or an actual SVG illustration here
+        background: linear-gradient(135deg, #a7c7ed 0%, #b3e5fc 100%); // A nice blue gradient
+    }
+
+    .course-image {
+      width: 100%;
+      height: 100%;
+      object-fit: contain; // Ensures entire image is visible
+      padding: 24px; // More padding for images inside the wrapper
+      filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.1)); // Subtle shadow for logos
+    }
+  }
+
+  .card-content {
+    padding: 24px; // More padding inside content area
+    text-align: center; // Center text for a cleaner look
+
+    .course-title {
+      margin-top: 0;
+      margin-bottom: 8px;
+      font-weight: 600; // Bolder title
+      color: #333; // Darker color for better contrast
+    }
+
+    .course-description {
+      color: rgba(0, 0, 0, 0.7);
+      line-height: 1.6; // Better readability
+    }
+  }
+
+  .card-actions {
+      padding: 0 24px 24px; // Padding for the button area
+      display: flex;
+      justify-content: center;
+  }
+
+  // Responsive adjustments for cards
+  @media (min-width: 768px) {
+    width: calc(50% - 16px); // Two cards per row with gap
+  }
+
+  @media (min-width: 1024px) {
+    width: calc(33.333% - 21.333px); // Three cards per row with gap
+  }
+}
