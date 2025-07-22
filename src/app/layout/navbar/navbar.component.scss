@@ -1,0 +1,123 @@
+.main-toolbar {
+  height: 64px;
+  padding: 0 20px;
+  display: flex;
+  align-items: center;
+  background: linear-gradient(90deg, #3f51b5, #5c6bc0);
+  color: #fff;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+
+  .app-title {
+    font-size: 1.6em;
+    font-weight: 600;
+    margin-left: 16px;
+    letter-spacing: 0.5px;
+  }
+
+  .spacer {
+    flex: 1;
+  }
+
+  .desktop-nav {
+    display: flex;
+    gap: 12px;
+
+    a {
+      color: #fff;
+      font-size: 1.05em;
+      font-weight: 400;
+      text-decoration: none;
+      padding: 6px 12px;
+      border-radius: 6px;
+      transition: all 0.3s ease;
+
+      &:hover {
+        background-color: rgba(255, 255, 255, 0.15);
+        transform: translateY(-2px);
+      }
+
+      &.active-link {
+        font-weight: 600;
+        background-color: rgba(255, 255, 255, 0.25);
+      }
+    }
+  }
+
+  .menu-button {
+    display: none;
+  }
+}
+
+.sidenav-container {
+  height: calc(100vh - 64px);
+  background-color: #fafafa;
+}
+
+.mobile-sidenav {
+  width: 260px;
+  background: #ffffff;
+  box-shadow: 3px 0 8px rgba(0, 0, 0, 0.3);
+
+  .mat-nav-list {
+    padding-top: 20px;
+
+    .mat-list-item {
+      font-size: 1.1em;
+      color: #3f51b5;
+      display: flex;
+      align-items: center;
+      transition: all 0.3s ease;
+
+      mat-icon {
+        margin-right: 12px;
+        color: #5c6bc0;
+      }
+
+      &:hover {
+        background-color: #e8eaf6;
+        transform: translateX(5px);
+      }
+    }
+  }
+}
+
+.content {
+  padding: 24px;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .desktop-nav {
+    display: none;
+  }
+
+  .menu-button {
+    display: block;
+    color: #fff;
+  }
+
+  .app-title {
+    margin-left: 8px;
+  }
+}
+
+@media (max-width: 480px) {
+  .main-toolbar {
+    height: 56px;
+  }
+
+  .sidenav-container {
+    height: calc(100vh - 56px);
+  }
+
+  .app-title {
+    font-size: 1.3em;
+  }
+}

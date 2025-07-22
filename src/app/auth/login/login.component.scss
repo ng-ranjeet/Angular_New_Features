@@ -1,0 +1,83 @@
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #fc00ff 0%, #00dbde 100%);  // Attractive background
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.login-card {
+  max-width: 400px;
+  width: 100%;
+  padding: 30px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  background-color: #fff;
+  animation: fadeIn 1s ease-out; // Simple fade-in animation
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.text-center {
+  text-align: center;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px; // Space between form fields
+}
+
+.full-width {
+  width: 100%;
+}
+
+.remember-me {
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
+
+.login-button {
+  height: 50px;
+  font-size: 1.1em;
+  font-weight: bold;
+}
+
+mat-card-title {
+  font-size: 2em;
+  margin-bottom: 20px;
+  color: #e91e63; // Primary color
+}
+
+mat-card-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+
+  a {
+    font-size: 0.9em;
+    text-decoration: none; // Remove underline from links
+  }
+}
+
+// Responsive adjustments
+@media (max-width: 600px) {
+  .login-card {
+    padding: 20px;
+    margin: 0 10px; // Add some margin on smaller screens
+  }
+
+  mat-card-title {
+    font-size: 1.5em;
+  }
+
+  .login-button {
+    height: 45px;
+    font-size: 1em;
+  }
+}
