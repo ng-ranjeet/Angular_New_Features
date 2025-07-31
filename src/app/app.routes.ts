@@ -10,5 +10,6 @@ export const routes: Routes = [
     { path: 'login', loadComponent: () => import('./auth/login/login.component').then(m => m.LoginComponent) },
     { path: 'register', loadComponent: () => import('./auth/signup/signup.component').then(m => m.SignupComponent) },
     { path: 'home', loadComponent: () => import('./home/home.component').then(m => m.HomeComponent) },
+    { path: 'products', loadComponent: () => import('./products/products.component').then(m => m.ProductsComponent) },
     { path: '**', loadComponent: () => import('./not-found/not-found.component').then(m => m.NotFoundComponent) }
 ];

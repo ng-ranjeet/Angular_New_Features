@@ -1,0 +1,520 @@
+
+:host {
+  font-family: 'Inter', sans-serif;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden; // Prevent body scroll
+}
+.mat-mdc-form-field-subscript-wrapper{
+        display: none;
+      }
+.main-toolbar {
+  background: linear-gradient(to right, #673ab7, #512da8); // Deep Purple gradient
+  color: white;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  padding: 0 24px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  z-index: 100; // Ensure toolbar is on top
+  justify-content: space-between;
+
+  .app-title {
+    font-size: 1.6rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    margin-right: 32px;
+  }
+
+  .search-section {
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .search-field {
+      width: 500px;
+        background: white;
+        border-radius: 4px;
+      // Force background of the input area to be clearly visible
+      .mat-form-field-flex {
+        background-color: #ffffff !important; // Solid white background
+        border-radius: 8px;
+        padding: 0 12px;
+        transition: background-color 0.3s ease;
+
+        &:hover {
+          background-color: #f0f0f0 !important; // Slightly grey on hover for feedback
+        }
+      }
+      // The actual outline border
+      .mat-form-field-outline {
+        color: #333333 !important; // Solid dark grey/black outline for strong contrast
+        border-radius: 8px;
+        // You can adjust border thickness if desired, e.g.:
+        // .mat-form-field-outline-thick { border-width: 2px !important; }
+      }
+
+      // The floating label
+      .mat-form-field-label {
+        color: #333333 !important; // Force dark grey/black label
+      }
+
+      // The input text itself
+      input {
+        color: #333333 !important; // Force dark grey/black input text
+        padding-left: 0;
+        &::placeholder {
+          color: #666666 !important; // Force dark grey placeholder
+        }
+      }
+
+      // The suffix icon (search icon)
+      .mat-icon-button {
+        color: #333333 !important; // Force dark grey/black icon
+        opacity: 1 !important; // Ensure full opacity
+        &:hover {
+          opacity: 0.8 !important; // Slight fade on hover for interaction feedback
+        }
+      }
+
+      // Styles for the focus state (when the input is active)
+      &.mat-focused {
+        .mat-form-field-outline {
+          color: #673ab7 !important; // Primary color outline when focused
+        }
+        .mat-form-field-label {
+          color: #673ab7 !important; // Primary color label when focused
+        }
+        .mat-icon-button {
+          color: #673ab7 !important; // Primary color icon when focused
+        }
+      }
+    }
+  }
+
+  .menu-button {
+    display: none; // Hidden by default, shown on smaller screens
+    margin-right: 16px;
+  }
+}
+
+.product-sidenav-container {
+  flex-grow: 1; // Allows it to take remaining vertical space
+  height: calc(100vh - 64px); // Adjust for toolbar height
+  background-color: #f5f5f5; // Light grey background for content area
+}
+
+.filters-sidenav {
+  width: 300px; // Slightly wider for better filter display
+  padding: 24px 16px;
+  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
+  background-color: #ffffff; // White background for filters
+
+  .filters-header {
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: #3f51b5; // Material primary color
+    margin-bottom: 24px;
+    padding-left: 8px;
+  }
+
+  .filter-section {
+    margin-bottom: 24px;
+    padding: 0 8px;
+
+    h4 {
+      font-size: 1.1rem;
+      font-weight: 500;
+      color: #424242; // Dark grey for section titles
+      margin-top: 0;
+      margin-bottom: 12px;
+    }
+
+    .filter-list {
+      max-height: 200px;
+      overflow-y: auto;
+      border: 1px solid #e0e0e0;
+      border-radius: 8px;
+      background-color: #fcfcfc;
+
+      mat-list-option {
+        padding: 8px 12px;
+        &:hover {
+          background-color: #e8eaf6; // Light blue on hover
+        }
+        &.mat-selected {
+          background-color: #c5cae9 !important; // Lighter primary on selected
+          color: #3f51b5;
+        }
+      }
+    }
+
+    mat-slider {
+      width: 100%;
+      margin-top: 16px;
+    }
+
+    .slider-value {
+      display: block;
+      text-align: center;
+      margin-top: 8px;
+      font-size: 0.9em;
+      color: #616161;
+    }
+  }
+
+  mat-divider {
+    margin: 16px 0;
+    border-color: #e0e0e0;
+  }
+
+  .clear-filters-container {
+    padding: 0; // Remove padding from parent filter-section
+    text-align: center;
+    margin-top: 30px;
+  }
+
+  .clear-filters-button {
+    width: 90%;
+    padding: 10px 0;
+    font-size: 1rem;
+    font-weight: 500;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    mat-icon {
+      margin-right: 8px;
+    }
+  }
+}
+
+.product-content {
+  padding: 24px;
+  background-color: #f5f5f5; // Consistent background
+}
+
+.product-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  background-color: #ffffff;
+  padding: 16px 24px;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+
+  .product-count {
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: #424242;
+  }
+
+  .sort-select {
+    width: 220px;
+    .mat-form-field-wrapper {
+      padding-bottom: 0;
+    }
+  }
+}
+
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); // Flexible columns
+  gap: 24px; // Increased gap for better spacing
+  justify-content: center; // Center grid items if they don't fill the row
+
+  .product-card {
+    border-radius: 12px; // More rounded corners
+    overflow: hidden; // Ensures image respects border-radius
+    display: flex;
+    flex-direction: column;
+    height: 100%; // Ensure cards fill their grid area
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+
+    &:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15); // More prominent shadow on hover
+    }
+
+    .product-image-container {
+      width: 100%;
+      height: 200px; // Consistent image height
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #f0f0f0; // Light background for images
+      overflow: hidden;
+      border-bottom: 1px solid #eee;
+
+      img {
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain; // Ensure image fits without cropping
+      }
+    }
+
+    .product-card-header {
+      padding: 16px;
+      padding-bottom: 0; // Adjust padding
+    }
+
+    mat-card-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: #333;
+      line-height: 1.3;
+    }
+
+    mat-card-subtitle {
+      color: #757575;
+      font-size: 0.9rem;
+      margin-top: 4px;
+    }
+
+    .product-card-content {
+      flex-grow: 1;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end; // Push price/rating to bottom of content area
+
+      .product-price {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #3f51b5; // Primary color
+        margin-bottom: 8px;
+      }
+
+      .product-rating {
+        display: flex;
+        align-items: center;
+        color: #ffc107; // Gold color for stars
+        font-size: 0.95rem;
+
+        mat-icon {
+          font-size: 20px;
+          height: 20px;
+          width: 20px;
+          margin-right: 2px;
+          color: #ffc107; // Default star color
+
+          &.filled-star {
+            color: #ffc107; // Full star
+          }
+          &.half-filled-star {
+            color: #ffc107; // Half star
+          }
+        }
+        span {
+          margin-left: 6px;
+          color: #616161;
+          font-size: 0.85rem;
+        }
+      }
+    }
+
+    .product-card-actions {
+      padding: 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid #f5f5f5; // Subtle separator
+
+      .add-to-cart-button {
+        padding: 8px 16px;
+        font-size: 0.9rem;
+        font-weight: 500;
+        border-radius: 6px;
+        mat-icon {
+          margin-right: 8px;
+        }
+      }
+      mat-stroked-button {
+        padding: 8px 16px;
+        font-size: 0.9rem;
+        font-weight: 500;
+        border-radius: 6px;
+      }
+    }
+  }
+}
+
+.mat-paginator {
+  margin-top: 32px;
+  margin-bottom: 24px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  padding: 8px 16px;
+}
+
+.loading-spinner-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 300px;
+  color: #616161;
+  font-size: 1.1rem;
+  p {
+    margin-top: 16px;
+  }
+}
+
+.no-products-found {
+  text-align: center;
+  margin-top: 60px;
+  color: #757575;
+  background-color: #ffffff;
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+
+  .no-products-icon {
+    font-size: 80px;
+    height: 80px;
+    width: 80px;
+    color: #9e9e9e;
+    margin-bottom: 20px;
+  }
+  p {
+    font-size: 1.4em;
+    margin-bottom: 20px;
+    font-weight: 500;
+  }
+  button {
+    padding: 10px 20px;
+    font-size: 1rem;
+    border-radius: 6px;
+  }
+}
+
+// Responsive adjustments
+@media (max-width: 992px) {
+  .main-toolbar {
+    height: 56px; // Standard mobile toolbar height
+    padding: 0 16px;
+
+    .app-title {
+      font-size: 1.4rem;
+      margin-right: 16px;
+    }
+
+    .search-section {
+      justify-content: flex-end; // Align search to right
+      .search-field {
+        width: 100%;
+        max-width: 350px; // Limit max width on tablet
+        margin: 0;
+      }
+    }
+    .menu-button {
+      display: block; // Show menu button on smaller screens
+    }
+  }
+
+  .product-sidenav-container {
+    height: calc(100vh - 56px); // Adjust for smaller toolbar
+  }
+
+  .filters-sidenav {
+    width: 280px; // Slightly smaller width for tablet
+    // Sidenav mode will automatically switch to 'over' on small screens if `hasBackdrop` is true
+    // or if you explicitly set [mode]="(isHandset$ | async) ? 'over' : 'side'" in TS
+  }
+
+  .product-content {
+    padding: 16px;
+  }
+
+  .product-header {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 12px 16px;
+    margin-bottom: 16px;
+
+    .product-count {
+      margin-bottom: 12px;
+    }
+
+    .sort-select {
+      width: 100%;
+    }
+  }
+
+  .product-grid {
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); // Adjust grid for tablets
+    gap: 16px;
+  }
+}
+
+@media (max-width: 600px) {
+  .main-toolbar {
+    .app-title {
+      font-size: 1.2rem;
+    }
+    .search-section {
+      .search-field {
+        width: 100%;
+        max-width: none; // Allow full width on mobile
+      }
+    }
+  }
+
+  .filters-sidenav {
+    width: 85vw; // Even wider on very small screens for better touch
+  }
+
+  .product-content {
+    padding: 12px;
+  }
+
+  .product-grid {
+    grid-template-columns: 1fr; // Single column on small mobile
+    gap: 16px;
+  }
+
+  .product-card {
+    .product-image-container {
+      height: 180px; // Slightly smaller image height on mobile
+    }
+    mat-card-title {
+      font-size: 1.15rem;
+    }
+    .product-price {
+      font-size: 1.3rem;
+    }
+    .product-card-actions {
+      flex-direction: column;
+      gap: 10px;
+      .add-to-cart-button, mat-stroked-button {
+        width: 100%;
+      }
+    }
+  }
+
+  .mat-paginator {
+    padding: 8px;
+    font-size: 0.8rem;
+    .mat-paginator-container {
+      flex-wrap: wrap; // Allow pagination elements to wrap
+      justify-content: center;
+    }
+  }
+
+  .no-products-found {
+    padding: 30px;
+    .no-products-icon {
+      font-size: 60px;
+      height: 60px;
+      width: 60px;
+    }
+    p {
+      font-size: 1.1em;
+    }
+  }
+}

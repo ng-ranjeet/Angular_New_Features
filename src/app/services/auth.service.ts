@@ -13,7 +13,7 @@ export class AuthService {
 
   constructor() { }
   login(email: string, password: string): Observable<UserResponse> {
-    return this.http.post<UserResponse>(`${this.apiUrl}/login`, { email, password } , { withCredentials: true });
+    return this.http.post<UserResponse>(`${this.apiUrl}/auth/login`, { email, password } , { withCredentials: true });
   }
   signup(name: string, email: string, password: string) {
     return this.http.post(`${this.apiUrl}/signup`, {name, email, password });
