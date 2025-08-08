@@ -21,4 +21,8 @@ export interface FilterOptions {
   brands: string[];
   priceRanges: string[];
   ratings: number[];
+  min_max_price: {
+    min: {price: number};
+    max: {price: number};
+  };
 }

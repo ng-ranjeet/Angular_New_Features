@@ -11,5 +11,6 @@ export const routes: Routes = [
     { path: 'register', loadComponent: () => import('./auth/signup/signup.component').then(m => m.SignupComponent) },
     { path: 'home', loadComponent: () => import('./home/home.component').then(m => m.HomeComponent) },
     { path: 'products', loadComponent: () => import('./products/products.component').then(m => m.ProductsComponent) },
+    { path: 'products-details/:id', loadComponent: () => import('./product-detail/product-detail.component').then(m => m.ProductDetailComponent) },
     { path: '**', loadComponent: () => import('./not-found/not-found.component').then(m => m.NotFoundComponent) }
 ];

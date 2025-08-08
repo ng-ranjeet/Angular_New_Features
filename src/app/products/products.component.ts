@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, signal, WritableSignal, EventEmitter, inject } from '@angular/core';
+import { Component, OnInit, OnDestroy, signal, WritableSignal, EventEmitter, inject, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule, FormControl } from '@angular/forms';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -15,14 +15,15 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatOptionModule } from '@angular/material/core';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { Subject, combineLatest, startWith, debounceTime, takeUntil, switchMap } from 'rxjs';
+import { Subject, combineLatest, startWith, debounceTime, takeUntil, switchMap, distinctUntilChanged } from 'rxjs';
 import { MatSliderModule } from "@angular/material/slider";
 import { CoreService } from '../services/core.service';
 import { Products } from '../models/product.model';
+import { RouterLink } from '@angular/router';
 
 @Component({
-  selector: 'app-products', // Changed selector to app-products as per your code
-  standalone: true, // Ensure standalone is true
+  selector: 'app-products',
+  standalone: true,
   imports: [
     CommonModule,
     FormsModule,
@@ -41,14 +42,14 @@ import { Products } from '../models/product.model';
     MatOptionModule,
     MatPaginatorModule,
     MatProgressSpinnerModule,
-    MatSliderModule
+    MatSliderModule,
+    RouterLink
   ],
   templateUrl: './products.component.html',
-  styleUrl: './products.component.scss' // Changed styleUrl as per your code
+  styleUrl: './products.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProductsComponent implements OnInit, OnDestroy {
-  // Dummy Data (replace with API calls in a real application)
-  private allProducts: Products[] = [];
 
   // Filters and Search controls
   searchControl = new FormControl('');
@@ -65,7 +66,6 @@ export class ProductsComponent implements OnInit, OnDestroy {
   totalProducts = 0;
 
   // Signals for filtered and displayed products
-  filteredProducts: WritableSignal<Products[]> = signal([]);
   displayedProducts: WritableSignal<Products[]> = signal([]);
 
   // Available filter options (dynamically generated from allProducts)
@@ -79,7 +79,8 @@ export class ProductsComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.extractFilterOptions();
-    this.applyFiltersAndPagination();
+    // this.applyFiltersAndPagination();
+    this.setupFiltersAndSearch();
   }
 
   ngOnDestroy(): void {
@@ -96,25 +97,29 @@ export class ProductsComponent implements OnInit, OnDestroy {
         data.brands.forEach((brand) => brands.add(brand));
         this.availableCategories = Array.from(categories).sort();
         this.availableBrands = Array.from(brands).sort();
+        this.maxPrice = data.min_max_price.max.price;
+        this.priceRange.set(this.maxPrice);
       },
       error: (err) => {
         console.log(err)
       },
     });
-    // this.maxPrice = highestPrice;
-    // this.priceRange.set(highestPrice); // Set initial max price for slider
   }
 
   private setupFiltersAndSearch(): void {
     combineLatest([
-      this.searchControl.valueChanges.pipe(startWith(this.searchControl.value), debounceTime(600)),
+      this.searchControl.valueChanges.pipe(startWith(this.searchControl.value)),
       this.sortOption.valueChanges.pipe(startWith(this.sortOption.value)),
-    ]).pipe(
-      takeUntil(this.destroy$)
-    ).subscribe(() => {
-      this.pageIndex = 0; // Reset page on filter/search/sort change
-      this.applyFiltersAndPagination();
-    });
+    ])
+      .pipe(
+        debounceTime(600),
+        distinctUntilChanged((prev, curr) => JSON.stringify(prev) === JSON.stringify(curr)),
+        takeUntil(this.destroy$)
+      )
+      .subscribe(() => {
+        this.pageIndex = 0;
+        this.applyFiltersAndPagination();
+      });
   }
 
   applyFiltersAndPagination(): void {
@@ -148,20 +153,20 @@ export class ProductsComponent implements OnInit, OnDestroy {
       filterData.brands = this.selectedBrands.join(',');
     }
     // apply pagination 
-      filterData.page = this.pageIndex + 1;
-      filterData.limit = this.pageSize;
+    filterData.page = this.pageIndex + 1;
+    filterData.limit = this.pageSize;
+    filterData.sortby = this.sortOption.value;
     this.coreService.getProducts(filterData).subscribe({
       next: (data) => {
-        this.allProducts = data.products;
         this.totalProducts = data.totalResults;
-        this.filteredProducts.set(this.allProducts);
-        const startIndex = this.pageIndex * this.pageSize;
-        const endIndex = startIndex + this.pageSize;
-        this.displayedProducts.set(this.filteredProducts().slice(startIndex, endIndex));
+        this.displayedProducts.set([...data.products]);
       },
       error: (err) => {
         console.log(err)
       },
+      complete: () => {
+        this.isLoading.set(false);
+      }
     })
     // // Simulate network delay
     // setTimeout(() => {

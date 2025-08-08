@@ -1,0 +1,131 @@
+<mat-toolbar color="primary" class="detail-toolbar">
+  <button mat-icon-button (click)="goBack()" class="back-button">
+    <mat-icon>arrow_back</mat-icon>
+  </button>
+  <span class="toolbar-title">Product Details</span>
+  <span class="toolbar-spacer"></span>
+  <button mat-icon-button class="share-button">
+    <mat-icon>share</mat-icon>
+  </button>
+</mat-toolbar>
+
+<div class="product-detail-container">
+  @if (isLoading()) {
+    <div class="loading-spinner-container">
+      <mat-spinner diameter="80" color="accent"></mat-spinner>
+      <p class="loading-text">Loading product details...</p>
+    </div>
+  } @else if (product()) {
+    <mat-card class="product-card mat-elevation-z16">
+      <div class="product-grid-layout">
+        <div class="product-image-area">
+          <div class="image-wrapper">
+            <img [src]="product()!.imageUrl" [alt]="product()!.name" class="product-image" onerror="this.onerror=null;this.src='https://placehold.co/600x450/e0e0e0/424242?text=Image+Unavailable';">
+          </div>
+        </div>
+
+        <div class="product-info-area">
+          <h1 class="product-title">{{ product()!.name }}</h1>
+          <p class="product-brand-category">{{ product()!.brand }} <span class="separator">|</span> {{ product()!.category }}</p>
+
+          <div class="product-rating-summary">
+            <div class="stars">
+              @for (i of [1,2,3,4,5]; track i) {
+                <mat-icon [class.filled-star]="product()!.rating >= i" [class.half-filled-star]="product()!.rating > (i - 1) && product()!.rating < i">
+                  {{ product()!.rating >= i ? 'star' : (product()!.rating > (i - 1) && product()!.rating < i ? 'star_half' : 'star_border') }}
+                </mat-icon>
+              }
+            </div>
+            <span class="rating-text">{{ product()!.rating.toFixed(1) }} out of 5 stars</span>
+            <span class="reviews-link" (click)="goToReviewsTab()">({{ product()!.reviews.length }} Reviews)</span>
+          </div>
+
+          <div class="price-availability-section">
+            <p class="product-price">${{ product()!.price.toFixed(2) }}</p>
+            <div class="availability-badge">
+              <mat-icon class="check-icon">check_circle</mat-icon> In Stock
+            </div>
+          </div>
+
+          <div class="quantity-add-actions">
+            <div class="quantity-selector">
+              <button mat-icon-button (click)="updateQuantity(-1)" [disabled]="quantity === 1" class="quantity-button">
+                <mat-icon>remove</mat-icon>
+              </button>
+              <mat-form-field appearance="outline" class="quantity-input-field">
+                <input matInput type="number" [(ngModel)]="quantity" min="1" (change)="onQuantityChange()">
+              </mat-form-field>
+              <button mat-icon-button (click)="updateQuantity(1)" class="quantity-button">
+                <mat-icon>add</mat-icon>
+              </button>
+            </div>
+            <button mat-raised-button color="primary" class="action-button add-to-cart-button" (click)="addToCart()">
+              <mat-icon>add_shopping_cart</mat-icon> Add to Cart
+            </button>
+          </div>
+          <button mat-flat-button color="accent" class="action-button buy-now-button" (click)="buyNow()">
+            <mat-icon>shopping_bag</mat-icon> Buy Now
+          </button>
+        </div>
+      </div>
+
+      <div class="product-tabs-section">
+        <mat-tab-group animationDuration="500ms" #productTabs class="custom-tabs">
+          <mat-tab label="Description">
+            <div class="tab-content">
+              <p>{{ product()!.description }}</p>
+            </div>
+          </mat-tab>
+          <mat-tab label="Specifications">
+            <div class="tab-content">
+              <dl class="spec-list">
+                @for (key of productKeys(product()!.specifications); track key) {
+                  <div class="spec-item">
+                    <dt>{{ key }}:</dt>
+                    <dd>{{ product()!.specifications[key] }}</dd>
+                  </div>
+                }
+              </dl>
+            </div>
+          </mat-tab>
+          <mat-tab label="Reviews ({{ product()!.reviews.length }})">
+            <div class="tab-content reviews-content">
+              @if (product()!.reviews.length > 0) {
+                @for (review of product()!.reviews; track $index) {
+                  <mat-card class="review-card mat-elevation-z2">
+                    <mat-card-header>
+                      <mat-card-title>{{ review.user }}</mat-card-title>
+                      <mat-card-subtitle>
+                        <div class="stars">
+                          @for (i of [1,2,3,4,5]; track i) {
+                            <mat-icon [class.filled-star]="review.rating >= i">
+                              {{ review.rating >= i ? 'star' : 'star_border' }}
+                            </mat-icon>
+                          }
+                        </div>
+                      </mat-card-subtitle>
+                    </mat-card-header>
+                    <mat-card-content>
+                      <p>{{ review.comment }}</p>
+                    </mat-card-content>
+                  </mat-card>
+                }
+              } @else {
+                <p class="no-reviews">No reviews yet. Be the first to review this product!</p>
+              }
+              <button mat-raised-button color="accent" class="write-review-button">
+                <mat-icon>rate_review</mat-icon> Write a Review
+              </button>
+            </div>
+          </mat-tab>
+        </mat-tab-group>
+      </div>
+    </mat-card>
+  } @else {
+    <div class="no-product-found">
+      <mat-icon class="no-product-icon">error_outline</mat-icon>
+      <p>Product not found.</p>
+      <button mat-stroked-button color="primary" (click)="goBack()">Go Back</button>
+    </div>
+  }
+</div>

@@ -1,11 +1,5 @@
 
-:host {
-  font-family: 'Inter', sans-serif;
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
-  overflow: hidden; // Prevent body scroll
-}
+
 .mat-mdc-form-field-subscript-wrapper{
         display: none;
       }
@@ -245,7 +239,7 @@
       align-items: center;
       background-color: #f0f0f0; // Light background for images
       overflow: hidden;
-      border-bottom: 1px solid #eee;
+      border-bottom: 1px solid #1c04fa;
 
       img {
         max-width: 100%;
